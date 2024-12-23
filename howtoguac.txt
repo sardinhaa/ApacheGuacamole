@@ -1,0 +1,125 @@
+Introdução
+
+    Apache Guacamole é uma solução extremamente versátil para acesso remoto, principalmente devido ao seu modelo clientless (sem cliente), ou seja, ele não requer que se instale um software específico ou realize qualquer configuração especial no dispositivo de quem acessa ou que vai aceder.
+    Aqui está uma visão geral do que isso significa e das vantagens que o Guacamole oferece:
+    Acesso Sem Cliente: O que é?
+    Normalmente, o acesso remoto requer que o usuário instale um software cliente (como o TeamViewer, VNC ou RDP) que se comunica com o dispositivo remoto. No entanto, com o Guacamole, isso não é necessário. O Guacamole é executado completamente no lado do servidor e utiliza tecnologias da web, o que permite que o usuário acesse o sistema remoto diretamente de qualquer navegador compatível (como Chrome, Firefox ou Safari), em praticamente qualquer dispositivo (computadores, tablets, smartphones, etc.).
+    Esse acesso é possível porque o Guacamole transforma o conteúdo da sessão remota (que pode ser uma área de trabalho ou uma aplicação) em elementos gráficos que são enviados para o navegador do usuário como um fluxo contínuo, similar a um vídeo interativo. A entrada do usuário (como toques, cliques e teclas) é enviada de volta ao servidor, permitindo que ele interaja com a sessão remota em tempo real.
+
+Como Funciona o Guacamole?
+
+    Gateway de Acesso: O Guacamole funciona como um gateway central. Ele se conecta aos sistemas remotos que você deseja acessar e serve como intermediário entre o usuário e esses sistemas. Para fazer isso, o Guacamole utiliza protocolos de acesso remoto amplamente suportados, como:
+    RDP (Remote Desktop Protocol) – usado para acesso a desktops Windows.
+    VNC (Virtual Network Computing) – protocolo comum para Linux e alguns sistemas de desktop.
+    SSH (Secure Shell) – usado principalmente para acesso remoto a servidores e dispositivos Linux em linha de comando.
+    Execução em Container ou Servidor: O Guacamole pode ser configurado em um servidor dedicado, ou em contêineres Docker, e executa um componente chamado guacd, que é responsável por gerir as conexões com o protocolo específico de cada sessão (RDP, VNC, SSH, etc.).
+    Interface Web: O Guacamole disponibiliza uma interface web simples e intuitiva, onde os usuários podem fazer login e ver uma lista de sistemas disponíveis (se tiverem permissões de acesso). Ao selecionar um sistema, o Guacamole cria uma sessão de acesso remoto diretamente no navegador.
+
+Vantagens do Apache Guacamole:
+
+    Acesso Universal: Como o Guacamole usa uma interface web, qualquer dispositivo com um navegador compatível pode ser usado para acessar sistemas remotos. Isso inclui não apenas desktops e laptops, mas também smartphones e tablets.
+    Segurança: O Guacamole suporta autenticação multifator (como 2FA com TOTP), tornando o acesso remoto mais seguro. Ele também permite controlar as permissões e acessos para cada usuário.
+    Experiência Sem Cliente: Os usuários não precisam se preocupar com atualizações ou configurações do cliente de acesso, pois tudo é gerido centralmente no servidor onde o Guacamole está instalado. Isso também reduz a necessidade de suporte técnico, já que qualquer problema é resolvido diretamente no servidor.
+    Integração com Sistemas Legados e Modernos: O Guacamole suporta múltiplos protocolos e permite acesso a uma variedade de sistemas, incluindo aqueles que não têm clientes próprios para acesso remoto. Com isso, ele é uma solução prática para ambientes mistos onde existem servidores Windows, máquinas Linux e até mesmo dispositivos de rede que precisam de acesso remoto via SSH.
+    Escalabilidade: O Guacamole é altamente escalável. Em ambientes empresariais, pode ser configurado para suportar centenas de conexões simultâneas, o que o torna ideal para organizações que precisam fornecer acesso a um grande número de sistemas e dispositivos.
+
+Neste Projeto Será Feito:
+
+    Implementação do Guacamole com Docker e Autenticação TOTP
+    Utilizando Docker para a configuração e execução do Guacamole, o ambiente será fácil de gerenciar e manter, com portabilidade e escalabilidade. A autenticação TOTP (Time-based One-Time Password) será integrada para adicionar uma camada de segurança que exigirá dos utilizadores um segundo fator de autenticação. Esta etapa é essencial para proteger os acessos e garantir que mesmo que credenciais sejam comprometidas, será necessária a posse do dispositivo autenticador (como um smartphone) para acessar.
+    Gestão de Utilizadores
+    A configuração de gestão de utilizadores permitirá criar, monitorar e controlar as permissões de cada utilizador, garantindo que cada conta tenha o nível de acesso apropriado para as suas funções e que todos os acessos sejam devidamente rastreados e protegidos.
+    Sistema de Notificações para Logs de Contas
+    Uma solução de notificações será configurada para registrar e monitorar eventos críticos, como tentativas de login, acessos bem-sucedidos, alterações de configuração, entre outros. Esse sistema de monitoramento ajudará a detectar acessos suspeitos ou não autorizados em tempo real, possibilitando respostas rápidas a eventos de segurança.
+    Implementação do Cloudflare Tunnel
+    Com a funcionalidade de Cloudflare Tunnel, o Guacamole será acessível remotamente sem a necessidade de abrir portas no local firewall. O Cloudflare Tunnel atuará como um túnel seguro para o tráfego, redirecionando-o através da infraestrutura da Cloudflare, o que também agrega uma camada de proteção contra ataques diretos, como DDoS. Essa solução é vantajosa para ambientes onde o acesso remoto é restrito ou onde a exposição direta de IPs públicos deve ser evitada.
+
+Objetivos e Benefícios:
+
+    Segurança e Conformidade: A combinação de autenticação multifator com a proteção de Cloudflare e a monitorização ativa dos acessos permitirá um ambiente altamente seguro, em conformidade com práticas recomendadas de segurança.
+    Acessibilidade Universal e Reduzida Complexidade de Rede: A integração com Cloudflare Tunnel permite o acesso remoto sem exposição de portas no firewall, simplificando a infraestrutura de rede e melhorando a acessibilidade para dispositivos e redes onde o acesso direto poderia ser restrito.
+    Facilidade de Gestão e Expansibilidade: A configuração em Docker facilita a manutenção e escalabilidade da solução, com a possibilidade de adicionar novos contêineres ou ajustar recursos conforme a necessidade.
+    Este projeto resultará em uma solução robusta e segura para o acesso remoto centralizado, ideal para ambientes com vários usuários e dispositivos, oferecendo uma experiência de acesso eficiente e segura a todos os envolvidos.
+
+Passo a Passo:
+
+    Entre como sudo:
+        sudo su
+    Atualize o sistema operacional:
+        apt update && apt upgrade -y
+    Instale o Docker usando o script oficial do site do Docker:
+        curl -sSL https://get.docker.com | sh
+    Instale o docker-compose:
+        apt install docker-compose
+    Adicione sua conta de usuário ao grupo docker:
+        usermod -aG docker $USER
+    Instale o servidor SSH:
+        apt install openssh-server
+    Clone o repositório de instalação do Guacamole:
+        git clone "https://github.com/boschkundendienst/guacamole-docker-compose.git" guacamole
+    Acesse a pasta do projeto:
+        cd guacamole
+    Execute o script de preparação:
+        ./prepare.sh
+    Edite o arquivo docker-compose.yml:
+        nano docker-compose.yml
+        Exemplo Completo de docker-compose.yml:
+        version: '3.8'
+        networks:
+        guacnetwork_compose:
+            driver: bridge
+        services:
+        guacd:
+            container_name: guacd_compose
+            image: guacamole/guacd
+            networks:
+            - guacnetwork_compose
+            restart: always
+            volumes:
+            - ./drive:/drive:rw
+            - ./record:/record:rw
+        postgres:
+            container_name: postgres_guacamole_compose
+            environment:
+            PGDATA: /var/lib/postgresql/data/guacamole
+            POSTGRES_DB: guacamole_db
+            POSTGRES_PASSWORD: 'g8XxNe,5oLq0'
+            POSTGRES_USER: guacamole_user
+            image: postgres:15.2-alpine
+            networks:
+            - guacnetwork_compose
+            restart: always
+            volumes:
+            - ./init:/docker-entrypoint-initdb.d:z
+            - ./data:/var/lib/postgresql/data:Z
+        guacamole:
+            container_name: guacamole_compose
+            depends_on:
+            - guacd
+            - postgres
+            environment:
+            GUACD_HOSTNAME: guacd
+            POSTGRES_DATABASE: guacamole_db
+            POSTGRES_HOSTNAME: postgres
+            POSTGRES_PASSWORD: 'g8XxNe,5oLq0'
+            POSTGRES_USER: guacamole_user
+            TOTP_ENABLED: 'true'
+            WEBAPP_CONTEXT: 'ROOT'
+            image: guacamole/guacamole
+            networks:
+            - guacnetwork_compose
+            volumes:
+            - ./record:/record:rw
+            ports:
+            - 8080:8080/tcp
+            restart: always
+
+Inicie a aplicação:
+    docker compose up -d
+Acesse a interface do Guacamole no navegador:
+    http://(ip do server na rede ou 0.0.0.0):8080
+Credenciais iniciais de login:
+     Utilizador: guacadmin
+    Senha: guacadmin
+Ao fazer login, configure uma chave TOTP para habilitar o 2FA na conta "guacadmin".Pode utilizar qualquer aplicação autenticadora TOTP, como o autenticador nativo do seu smartphone. Recomendo o Google Authenticator, que oferece versatilidade tanto nos dispositivos móveis quanto através de sua extensão para navegador, facilitando o acesso seguro em diferentes plataformas.
+
