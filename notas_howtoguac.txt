@@ -1,2 +1,3 @@
 porque nao usar nginx e so usar http?
 porque o nginx nao e capaz de usar o totp e causa um bug em qual o guacamole nao inicializa o serviço totp e  havera sempree um erro
+https://guacamole.apache.org/doc/0.9.13-incubating/gug/writing-you-own-guacamole-app.html#basic-guacamole-architecture
